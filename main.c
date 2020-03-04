@@ -7,7 +7,7 @@
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
 *       Date de mise à jour :       04.03.2020                          *
-*       Nouveautés :                Menu                                *
+*       Nouveautés :                Bordure titre                       *
 *                                                                       *
 *************************************************************************
 */
@@ -37,11 +37,22 @@ int main() {
     // Déclarations + initialisations
 
     int menu = 0;
+    int i = 0;
 
 
     // Titre
 
-    printf("\n\nBATAILLE-NAVALE");
+    printf("\n\n%c", 201);
+    for(i = 0; i < 17; i++){
+        printf("%c", 205);
+    }
+    printf("%c", 187);
+    printf("\n%c BATAILLE-NAVALE %c", 186, 186);
+    printf("\n%c", 200);
+    for(i = 0; i < 17; i++){
+        printf("%c", 205);
+    }
+    printf("%c", 188);
 
 
     do {
