@@ -6,8 +6,8 @@
 *       Version :                   0.1                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       05.03.2020                          *
-*       Nouveautés :                Affichage grille                    *
+*       Date de mise à jour :       06.03.2020                          *
+*       Nouveautés :                jeu fonctionnel                     *
 *                                                                       *
 *************************************************************************
 */
@@ -20,6 +20,7 @@
 int col = 0;
 int ligne = 0;
 int tableau[10][10];
+int tableauMap[10][10];
 int map;
 
 
@@ -127,12 +128,6 @@ int fonctionMap(){
 
     // remise de la map a 0
 
-    for(ligne = 0; ligne < 10; ligne++){
-        for(col = 0; col < 10; col++){
-            tableau[ligne][col] = 0;
-        }
-    }
-
 
     switch(map){
 
@@ -171,27 +166,27 @@ int fonctionMap(){
 
             // map jeux 1
         case 3:
-            tableau[0][0] = 3;
-            tableau[0][1] = 3;
-            tableau[0][2] = 3;
-            tableau[0][3] = 3;
-            tableau[0][4] = 3;
+            tableauMap[1][1] = 1;
+            tableauMap[1][2] = 1;
+            tableauMap[1][3] = 1;
+            tableauMap[1][4] = 1;
+            tableauMap[1][5] = 1;
 
-            tableau[2][0] = 3;
-            tableau[2][1] = 3;
-            tableau[2][2] = 3;
-            tableau[2][3] = 3;
+            tableauMap[2][7] = 1;
+            tableauMap[3][7] = 1;
+            tableauMap[4][7] = 1;
+            tableauMap[5][7] = 1;
 
-            tableau[4][0] = 3;
-            tableau[4][1] = 3;
-            tableau[4][2] = 3;
+            tableauMap[4][2] = 1;
+            tableauMap[4][3] = 1;
+            tableauMap[4][4] = 1;
 
-            tableau[6][0] = 3;
-            tableau[6][1] = 3;
-            tableau[6][2] = 3;
+            tableauMap[5][9] = 1;
+            tableauMap[6][9] = 1;
+            tableauMap[7][9] = 1;
 
-            tableau[8][0] = 3;
-            tableau[8][1] = 3;
+            tableauMap[9][0] = 1;
+            tableauMap[9][1] = 1;
             break;
     }
 
@@ -206,8 +201,10 @@ int main() {
 
     int menu = 0;
     int i = 0;
-    int grille;
+    int grille = 0;
+    int grilleMap = 0;
     int mapTemp = 0;
+    int touche = 17;
 
     for(ligne = 0; ligne < 10; ligne++){
         for(col = 0; col < 10; col++){
@@ -252,6 +249,12 @@ int main() {
 
             // map exemple
 
+            for(ligne = 0; ligne < 10; ligne++){
+                for(col = 0; col < 10; col++){
+                    tableau[ligne][col] = 0;
+                }
+            }
+
             map = 1;
             mapTemp = fonctionMap();
             grille = fonctionGrille();
@@ -294,7 +297,32 @@ int main() {
         // JEU
 
         if (menu == 4){
+            map = 3;
+            for(ligne = 0; ligne < 10; ligne++){
+                for(col = 0; col < 10; col++){
+                    tableau[ligne][col] = 0;
+                }
+            }
             printf("\n\nJEU :");
+            grille = fonctionGrille();
+            i = 0;
+            while(i < touche){
+                grilleMap = fonctionMap();
+
+                printf("\nligne :");
+                scanf("%d", &ligne);
+                printf("\ncolonne :");
+                scanf("%d", &col);
+
+                if(tableauMap[ligne-1][col-1] == 1){
+                    tableau[ligne-1][col-1] = 2;
+                    i++;
+                }
+                else{
+                    tableau[ligne-1][col-1] = 1;
+                }
+                grille = fonctionGrille();
+            }
         }
 
 
