@@ -7,7 +7,7 @@
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
 *       Date de mise à jour :       07.03.2020                          *
-*       Nouveautés :                map aléatoire                       *
+*       Nouveautés :                4eme map                            *
 *                                                                       *
 *************************************************************************
 */
@@ -240,6 +240,31 @@ int fonctionMap(){
             tableauMap[8][6] = 1;
             tableauMap[8][7] = 1;
             break;
+
+            // map jeu 4
+        case 6:
+            tableauMap[4][2] = 1;
+            tableauMap[5][2] = 1;
+            tableauMap[6][2] = 1;
+            tableauMap[7][2] = 1;
+            tableauMap[8][2] = 1;
+
+            tableauMap[0][4] = 1;
+            tableauMap[0][5] = 1;
+            tableauMap[0][6] = 1;
+            tableauMap[0][7] = 1;
+
+            tableauMap[6][5] = 1;
+            tableauMap[6][6] = 1;
+            tableauMap[6][7] = 1;
+
+            tableauMap[9][4] = 1;
+            tableauMap[9][5] = 1;
+            tableauMap[9][6] = 1;
+
+            tableauMap[9][8] = 1;
+            tableauMap[9][9] = 1;
+            break;
     }
 
     return 0;
@@ -257,7 +282,6 @@ int main() {
     int grille = 0;
     int grilleMap = 0;
     int mapTemp = 0;
-    int touche = 18;
     int coups = 0;
 
     srand( (unsigned)time( NULL ) ); // pour que le nbr soit différent à chaque fois
@@ -360,7 +384,7 @@ int main() {
 
             switch(menuMap){
                 case 1:
-                    printf("\nchoisissez une map entre 1 et 3 :\n");
+                    printf("\nchoisissez une map entre 1 et 4 :\n");
                     scanf("%d",&map);
                     map = map + 2;
                     break;
@@ -388,14 +412,15 @@ int main() {
             // map aléatoire
 
             if(map == 0){
-                map = 3 + rand() % 5;
+                map = 1 + rand() % 4;
+                map = map + 2;
             }
 
 
             printf("\n\nJEU :");
             grille = fonctionGrille();
             i = 0;
-            while(i < touche){
+            while(i < 17){
                 grilleMap = fonctionMap();
 
                 do{
@@ -415,9 +440,11 @@ int main() {
                 else{
                     tableau[ligne-1][col-1] = 1;
                 }
+
                 grille = fonctionGrille();
 
                 coups++;
+                map = 0;
             }
 
             printf("\nBRAVO !");
