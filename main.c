@@ -6,14 +6,16 @@
 *       Version :                   0.1                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       06.03.2020                          *
-*       Nouveautés :                choix de maps                       *
+*       Date de mise à jour :       07.03.2020                          *
+*       Nouveautés :                map aléatoire                       *
 *                                                                       *
 *************************************************************************
 */
 
 #include <stdio.h>
 #include <windows.h>
+#include <stdlib.h>
+#include <time.h>
 
 // tableau
 
@@ -21,7 +23,7 @@ int col = 0;
 int ligne = 0;
 int tableau[10][10];
 int tableauMap[10][10];
-int map;
+int map = 0;
 
 
 int fonctionMenu (){
@@ -213,6 +215,31 @@ int fonctionMap(){
             tableauMap[6][2] = 1;
             tableauMap[7][2] = 1;
             break;
+
+            // map jeu 3
+        case 5:
+            tableauMap[3][4] = 1;
+            tableauMap[4][4] = 1;
+            tableauMap[5][4] = 1;
+            tableauMap[6][4] = 1;
+            tableauMap[7][4] = 1;
+
+            tableauMap[0][0] = 1;
+            tableauMap[0][1] = 1;
+            tableauMap[0][2] = 1;
+            tableauMap[0][3] = 1;
+
+            tableauMap[5][0] = 1;
+            tableauMap[6][0] = 1;
+            tableauMap[7][0] = 1;
+
+            tableauMap[5][7] = 1;
+            tableauMap[5][8] = 1;
+            tableauMap[5][9] = 1;
+
+            tableauMap[8][6] = 1;
+            tableauMap[8][7] = 1;
+            break;
     }
 
     return 0;
@@ -232,6 +259,8 @@ int main() {
     int mapTemp = 0;
     int touche = 18;
     int coups = 0;
+
+    srand( (unsigned)time( NULL ) ); // pour que le nbr soit différent à chaque fois
 
     for(ligne = 0; ligne < 10; ligne++){
         for(col = 0; col < 10; col++){
@@ -307,6 +336,8 @@ int main() {
 
             printf("\n");
             system("pause");
+
+            map = 0;
         }
 
 
@@ -319,7 +350,6 @@ int main() {
 
         // MAPS
 
-        map = 3;
         if (menu == 3){
             printf("\n\nMAPS :");
             printf("\n\n1) Choisir une map");
@@ -330,7 +360,7 @@ int main() {
 
             switch(menuMap){
                 case 1:
-                    printf("\nchoisissez une map entre 1 et 2 :\n");
+                    printf("\nchoisissez une map entre 1 et 3 :\n");
                     scanf("%d",&map);
                     map = map + 2;
                     break;
@@ -354,6 +384,14 @@ int main() {
                     tableau[ligne][col] = 0;
                 }
             }
+
+            // map aléatoire
+
+            if(map == 0){
+                map = 3 + rand() % 5;
+            }
+
+
             printf("\n\nJEU :");
             grille = fonctionGrille();
             i = 0;
