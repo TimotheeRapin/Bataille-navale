@@ -7,7 +7,7 @@
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
 *       Date de mise à jour :       06.03.2020                          *
-*       Nouveautés :                jeu fonctionnel                     *
+*       Nouveautés :                choix de maps                       *
 *                                                                       *
 *************************************************************************
 */
@@ -29,10 +29,10 @@ int fonctionMenu (){
 
     printf("\n\n\nMENU :");
     printf("\n\n1) Afficher l'aide");
-    printf("\n2) S'authentifier");
+    // printf("\n2) S'authentifier");
     printf("\n3) Choisir une map");
     printf("\n4) Jouer");
-    printf("\n5) Afficher les scores");
+    // printf("\n5) Afficher les scores");
     printf("\n6) Quiter\n");
 
     scanf("%d", &choixMenu);
@@ -135,7 +135,7 @@ int fonctionMap(){
         case 1:
             tableau[0][0] = 0;
             tableau[0][1] = 1;
-            tableau[0][2] = 2;
+            // tableau[0][2] = 2;
             tableau[0][3] = 3;
             break;
 
@@ -188,6 +188,31 @@ int fonctionMap(){
             tableauMap[9][0] = 1;
             tableauMap[9][1] = 1;
             break;
+
+            // map jeu 2
+        case 4:
+            tableauMap[5][9] = 1;
+            tableauMap[6][9] = 1;
+            tableauMap[7][9] = 1;
+            tableauMap[8][9] = 1;
+            tableauMap[9][9] = 1;
+
+            tableauMap[2][4] = 1;
+            tableauMap[2][5] = 1;
+            tableauMap[2][6] = 1;
+            tableauMap[2][7] = 1;
+
+            tableauMap[1][1] = 1;
+            tableauMap[2][1] = 1;
+            tableauMap[3][1] = 1;
+
+            tableauMap[6][4] = 1;
+            tableauMap[6][5] = 1;
+            tableauMap[6][6] = 1;
+
+            tableauMap[6][2] = 1;
+            tableauMap[7][2] = 1;
+            break;
     }
 
     return 0;
@@ -200,11 +225,13 @@ int main() {
     // Déclarations + initialisations
 
     int menu = 0;
+    int menuMap = 0;
     int i = 0;
     int grille = 0;
     int grilleMap = 0;
     int mapTemp = 0;
-    int touche = 17;
+    int touche = 18;
+    int coups = 0;
 
     for(ligne = 0; ligne < 10; ligne++){
         for(col = 0; col < 10; col++){
@@ -242,8 +269,9 @@ int main() {
             printf("\n\nAIDE :");
             printf("\n\nquand une case n'est pas designee la case reste vide");
             printf("\nQuand c'est dans l'eau, il y a un %c",250);
-            printf("\nQuand un bateau est touche, il y a un x");
-            printf("\nQuand un bateau est coule, il y a un %c%c%c",219,219,219);
+            // printf("\nQuand un bateau est touche, il y a un x");
+            // printf("\nQuand un bateau est coule, il y a un %c%c%c",219,219,219);
+            printf("\nQuand un bateau est touche, il y a un %c%c%c",219,219,219);
             printf("\nExemple :");
 
 
@@ -274,6 +302,11 @@ int main() {
 
             printf("\n");
             system("pause");
+
+            printf("\nles bateau ne peuvent pas etre colle l'un contre l'autre (en diagonale non plus)");
+
+            printf("\n");
+            system("pause");
         }
 
 
@@ -286,18 +319,36 @@ int main() {
 
         // MAPS
 
+        map = 3;
         if (menu == 3){
             printf("\n\nMAPS :");
             printf("\n\n1) Choisir une map");
-            printf("\n2) Creer une map");
-            printf("\n3) Supprimer une map\n");
+            // printf("\n2) Creer une map");
+            // printf("\n3) Supprimer une map");
+            printf("\n");
+            scanf("%d",&menuMap);
+
+            switch(menuMap){
+                case 1:
+                    printf("\nchoisissez une map entre 1 et 2 :\n");
+                    scanf("%d",&map);
+                    map = map + 2;
+                    break;
+
+                case 2:
+
+                    break;
+
+                case 3:
+
+                    break;
+            }
         }
 
 
         // JEU
 
         if (menu == 4){
-            map = 3;
             for(ligne = 0; ligne < 10; ligne++){
                 for(col = 0; col < 10; col++){
                     tableau[ligne][col] = 0;
@@ -309,20 +360,33 @@ int main() {
             while(i < touche){
                 grilleMap = fonctionMap();
 
-                printf("\nligne :");
-                scanf("%d", &ligne);
-                printf("\ncolonne :");
-                scanf("%d", &col);
+                do{
+                    printf("\nligne :");
+                    scanf("%d", &ligne);
+                }while((ligne < 1) || (ligne > 10));
+
+                do{
+                    printf("\ncolonne :");
+                    scanf("%d", &col);
+                }while((col < 1) || (col > 10));
 
                 if(tableauMap[ligne-1][col-1] == 1){
-                    tableau[ligne-1][col-1] = 2;
+                    tableau[ligne-1][col-1] = 3;
                     i++;
                 }
                 else{
                     tableau[ligne-1][col-1] = 1;
                 }
                 grille = fonctionGrille();
+
+                coups++;
             }
+
+            printf("\nBRAVO !");
+            printf("\nvotre score est de %d coups",coups);
+
+            printf("\n");
+            system("pause");
         }
 
 
