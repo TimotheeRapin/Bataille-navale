@@ -3,11 +3,11 @@
 *                                                                       *
 *       N° de projet :              Pr01                                *
 *       Nom du projet :             Bataille-navale                     *
-*       Version :                   0.1                                 *
+*       Version :                   0.3                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       07.03.2020                          *
-*       Nouveautés :                4eme map                            *
+*       Date de mise à jour :       16.03.2020                          *
+*       Nouveautés :                essai de selection avec de lettres  *
 *                                                                       *
 *************************************************************************
 */
@@ -283,6 +283,20 @@ int main() {
     int grilleMap = 0;
     int mapTemp = 0;
     int coups = 0;
+    int touche = 0;
+    char ligneChar = 0;
+/*
+    char testLettreMinA = 0;
+    char testLettreMinB = 0;
+    char testLettre10 = 0;
+    printf("Maj");
+    scanf("%c",&testLettreMinA);
+    printf("Min");
+    scanf("%c",&testLettreMinB);
+    printf("nb");
+    scanf("%c",&testLettre10);
+    int testNB = testLettre10;
+*/
 
     srand( (unsigned)time( NULL ) ); // pour que le nbr soit différent à chaque fois
 
@@ -384,7 +398,7 @@ int main() {
 
             switch(menuMap){
                 case 1:
-                    printf("\nchoisissez une map entre 1 et 4 :\n");
+                    printf("\nchoisissez une map entre 1 et 4 (0 pour aleatoire) :\n");
                     scanf("%d",&map);
                     map = map + 2;
                     break;
@@ -419,14 +433,36 @@ int main() {
 
             printf("\n\nJEU :");
             grille = fonctionGrille();
-            i = 0;
-            while(i < 17){
+            touche = 0;
+            while(touche < 17){
                 grilleMap = fonctionMap();
 
                 do{
-                    printf("\nligne :");
-                    scanf("%d", &ligne);
+
+                    ligne = -1;
+                    //do{
+                        printf("\nligne :");
+                        scanf("%c",&ligneChar);
+                    //}while((ligneChar < 49) || ((ligneChar > 74) && (ligneChar < 97)) || (ligneChar > 106));
+/*
+                    // 1-9 -> 0-8
+                    if((ligneChar >= 49) && (ligneChar <= 57)){
+                        ligne = ligneChar - 48;
+                    }
+                    // 10 -> 9
+                    if(ligneChar == 97){
+                        ligne = ligneChar - 90;
+                    }*/
+                    // A-J -> 0-9
+                    if((ligneChar >= 65) && (ligneChar <= 74)){
+                        ligne = ligneChar - 64;
+                    }
+                    // a-j -> 0-9
+                    if((ligneChar > 96) && (ligneChar < 123)){
+                        ligne = ligneChar - 96;
+                    }
                 }while((ligne < 1) || (ligne > 10));
+
 
                 do{
                     printf("\ncolonne :");
@@ -435,7 +471,7 @@ int main() {
 
                 if(tableauMap[ligne-1][col-1] == 1){
                     tableau[ligne-1][col-1] = 3;
-                    i++;
+                    touche++;
                 }
                 else{
                     tableau[ligne-1][col-1] = 1;
