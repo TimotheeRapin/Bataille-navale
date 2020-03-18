@@ -3,11 +3,11 @@
 *                                                                       *
 *       N° de projet :              Pr01                                *
 *       Nom du projet :             Bataille-navale                     *
-*       Version :                   0.3                                 *
+*       Version :                   0.1                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       16.03.2020                          *
-*       Nouveautés :                essai de selection avec de lettres  *
+*       Date de mise à jour :       18.03.2020                          *
+*       Nouveautés :                Sortir du jeu                       *
 *                                                                       *
 *************************************************************************
 */
@@ -35,13 +35,15 @@ int fonctionMenu (){
     printf("\n3) Choisir une map");
     printf("\n4) Jouer");
     // printf("\n5) Afficher les scores");
-    printf("\n6) Quiter\n");
+    printf("\n6) Quitter");
 
+    printf("\n\n");
     scanf("%d", &choixMenu);
 
     return choixMenu;
 }
 
+// Fonction pour afficher la grille (touché, dans l'eau)
 int fonctionGrille(){
 
     int iFonction = 0;
@@ -128,8 +130,6 @@ int fonctionGrille(){
 
 int fonctionMap(){
 
-    // remise de la map a 0
-
 
     switch(map){
 
@@ -141,7 +141,7 @@ int fonctionMap(){
             tableau[0][3] = 3;
             break;
 
-            // map bateaux
+        // map nbr et type de bateaux
         case 2:
             tableau[0][0] = 3;
             tableau[0][1] = 3;
@@ -166,7 +166,7 @@ int fonctionMap(){
             tableau[8][1] = 3;
             break;
 
-            // map jeux 1
+        // map jeux 1
         case 3:
             tableauMap[1][1] = 1;
             tableauMap[1][2] = 1;
@@ -191,7 +191,7 @@ int fonctionMap(){
             tableauMap[9][1] = 1;
             break;
 
-            // map jeu 2
+        // map jeu 2
         case 4:
             tableauMap[5][9] = 1;
             tableauMap[6][9] = 1;
@@ -216,7 +216,7 @@ int fonctionMap(){
             tableauMap[7][2] = 1;
             break;
 
-            // map jeu 3
+        // map jeu 3
         case 5:
             tableauMap[3][4] = 1;
             tableauMap[4][4] = 1;
@@ -241,7 +241,7 @@ int fonctionMap(){
             tableauMap[8][7] = 1;
             break;
 
-            // map jeu 4
+        // map jeu 4
         case 6:
             tableauMap[4][2] = 1;
             tableauMap[5][2] = 1;
@@ -273,6 +273,10 @@ int fonctionMap(){
 int main() {
     setbuf(stdout,0);
 
+    // plein ecran (source : https://codes-sources.commentcamarche.net/forum/affich-371867-plein-ecran-c-console)
+    HWND hwnd=GetForegroundWindow();
+    ShowWindow(hwnd,SW_MAXIMIZE);
+
 
     // Déclarations + initialisations
 
@@ -285,20 +289,12 @@ int main() {
     int coups = 0;
     int touche = 0;
     char ligneChar = 0;
-/*
-    char testLettreMinA = 0;
-    char testLettreMinB = 0;
-    char testLettre10 = 0;
-    printf("Maj");
-    scanf("%c",&testLettreMinA);
-    printf("Min");
-    scanf("%c",&testLettreMinB);
-    printf("nb");
-    scanf("%c",&testLettre10);
-    int testNB = testLettre10;
-*/
+
 
     srand( (unsigned)time( NULL ) ); // pour que le nbr soit différent à chaque fois
+
+
+    //  Vider le tableau
 
     for(ligne = 0; ligne < 10; ligne++){
         for(col = 0; col < 10; col++){
@@ -322,6 +318,33 @@ int main() {
     }
     printf("%c", 188);
 
+    // Affichage bateau (source : http://www.ascii-fr.com/-Bateaux-.html#id1127)
+    printf("\n\n\n");
+    printf("                       $o\n"
+           "                       $                     .........\n"
+           "                      $$$      .oo..     'oooo'oooo'ooooooooo....\n"
+           "                       $       $$$$$$$\n"
+           "                   .ooooooo.   $$!!!!!\n"
+           "                 .'.........'. $$!!!!!      o$$oo.   ...oo,oooo,oooo'ooo''\n"
+           "    $          .o'  oooooo   '.$$!!!!!      $$!!!!!       'oo''oooo''\n"
+           " ..o$ooo...    $                '!!''!.     $$!!!!!\n"
+           " $    ..  '''oo$$$$$$$$$$$$$.    '    'oo.  $$!!!!!\n"
+           " !.......      '''..$$ $$ $$$   ..        '.$$!!''!\n"
+           " !!$$$!!!!!!!!oooo......   '''  $$ $$ :o           'oo.\n"
+           " !!$$$!!!$$!$$!!!!!!!!!!oo.....     ' ''  o$$o .      ''oo..\n"
+           " !!!$$!!!!!!!!!!!!!!!!!!!!!!!!!!!!ooooo..      'o  oo..    $\n"
+           "  '!!$$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!oooooo..  ''   ,$\n"
+           "   '!!$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!oooo..$$\n"
+           "    !!$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$'\n"
+           "    '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$!!!!!!!!!!!!!!!!!!,\n"
+           ".....$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$.....");
+
+    printf("\n\n\n");
+    system("pause");
+
+    // Effacer l'affichage
+    system("cls");
+
 
     do {
 
@@ -333,13 +356,17 @@ int main() {
         // AIDE
 
         if (menu == 1) {
+
+            // Effacer l'affichage
+            system("cls");
+
             printf("\n\nAIDE :");
-            printf("\n\nquand une case n'est pas designee la case reste vide");
+            printf("\n\nQuand une case n'est pas designee, la case reste vide");
             printf("\nQuand c'est dans l'eau, il y a un %c",250);
             // printf("\nQuand un bateau est touche, il y a un x");
             // printf("\nQuand un bateau est coule, il y a un %c%c%c",219,219,219);
             printf("\nQuand un bateau est touche, il y a un %c%c%c",219,219,219);
-            printf("\nExemple :");
+            printf("\n\nExemple :");
 
 
             // map exemple
@@ -354,34 +381,61 @@ int main() {
             mapTemp = fonctionMap();
             grille = fonctionGrille();
 
-            printf("\n");
+            printf("\n\n\n");
             system("pause");
 
-            printf("\n\nLes bateaux peuvent etres place verticalement ou horizontalement");
-            printf("\nBateaux disponible :");
+            // Effacer l'affichage
+            system("cls");
 
 
-            // map aide
+            // bateaux disponibles
+
+            printf("\n\nLes bateaux peuvent etre places verticalement ou horizontalement.");
+            printf("\n\nBateaux disponibles :");
+
+
+            // map nbr et type de bateaux
 
             map = 2;
             mapTemp = fonctionMap();
             grille = fonctionGrille();
 
-            printf("\n");
+            printf("\n\n\n");
             system("pause");
 
-            printf("\nles bateau ne peuvent pas etre colle l'un contre l'autre (en diagonale non plus)");
+            // Effacer l'affichage
+            system("cls");
 
-            printf("\n");
+
+            // dernier commentaire pour l'aide
+
+            printf("\n\nLes bateaux ne peuvent pas etre colles l'un contre l'autre (en diagonale non plus)");
+
+            printf("\n\n\n");
             system("pause");
+
+            // Effacer l'affichage
+            system("cls");
+
+            printf("\nVous pouvez quitter le jeu en mettant x quand la ligne vous est demandee");
+            printf("\nIl faudra cependant entrer une colonne entre 1-10 juste apres");
+
+            printf("\n\n\n");
+            system("pause");
+
+            // Effacer l'affichage
+            system("cls");
 
             map = 0;
         }
 
 
-        // AUTHENTIFICATION
+        // AUTHENTIFICATION (pas encore implemente)
 
         if (menu == 2) {
+            // Effacer l'affichage
+            system("cls");
+
             printf("\n\nAUTHENTIFICATION :");
         }
 
@@ -389,34 +443,51 @@ int main() {
         // MAPS
 
         if (menu == 3){
+            // Effacer l'affichage
+            system("cls");
+
             printf("\n\nMAPS :");
             printf("\n\n1) Choisir une map");
             // printf("\n2) Creer une map");
             // printf("\n3) Supprimer une map");
-            printf("\n");
+            printf("\n\n");
             scanf("%d",&menuMap);
 
+            // Effacer l'affichage
+            system("cls");
+
             switch(menuMap){
+
+                //  choix de la map
                 case 1:
-                    printf("\nchoisissez une map entre 1 et 4 (0 pour aleatoire) :\n");
+                    printf("\nchoisissez une map entre 1 et 4 (0 pour aleatoire) :");
+                    printf("\n\n");
                     scanf("%d",&map);
                     map = map + 2;
                     break;
 
+                //  ajout d'une map
                 case 2:
 
                     break;
 
+                //  suppression d'une map
                 case 3:
 
                     break;
             }
         }
 
+        // Effacer l'affichage
+        system("cls");
+
 
         // JEU
 
         if (menu == 4){
+
+            //  Remise a 0 de la map
+
             for(ligne = 0; ligne < 10; ligne++){
                 for(col = 0; col < 10; col++){
                     tableau[ligne][col] = 0;
@@ -430,10 +501,18 @@ int main() {
                 map = map + 2;
             }
 
+            // Effacer l'affichage
+            system("cls");
+
+            //  Debut de partie
 
             printf("\n\nJEU :");
             grille = fonctionGrille();
             touche = 0;
+
+
+            //  Continue tant que tous les bateaux n'ont pas tous ete touches
+
             while(touche < 17){
                 grilleMap = fonctionMap();
 
@@ -441,8 +520,10 @@ int main() {
 
                     ligne = -1;
                     //do{
-                        printf("\nligne :");
+                        printf("\nligne : ");
                         scanf("%c",&ligneChar);
+
+
                     //}while((ligneChar < 49) || ((ligneChar > 74) && (ligneChar < 97)) || (ligneChar > 106));
 /*
                     // 1-9 -> 0-8
@@ -453,6 +534,8 @@ int main() {
                     if(ligneChar == 97){
                         ligne = ligneChar - 90;
                     }*/
+
+
                     // A-J -> 0-9
                     if((ligneChar >= 65) && (ligneChar <= 74)){
                         ligne = ligneChar - 64;
@@ -461,21 +544,34 @@ int main() {
                     if((ligneChar > 96) && (ligneChar < 123)){
                         ligne = ligneChar - 96;
                     }
+                    // Sortir du jeu
+                    if((ligneChar == 88) || (ligneChar == 120)){
+                        ligne = 1;
+                        touche = 17;
+                    }
                 }while((ligne < 1) || (ligne > 10));
 
 
+                //  Demander la colonne
                 do{
-                    printf("\ncolonne :");
+                    printf("\ncolonne : ");
                     scanf("%d", &col);
                 }while((col < 1) || (col > 10));
+
+
+                //  Marquer comme touche
 
                 if(tableauMap[ligne-1][col-1] == 1){
                     tableau[ligne-1][col-1] = 3;
                     touche++;
                 }
+                // Marquer comme dans l'eau
                 else{
                     tableau[ligne-1][col-1] = 1;
                 }
+
+                // Effacer l'affichage
+                system("cls");
 
                 grille = fonctionGrille();
 
@@ -486,14 +582,20 @@ int main() {
             printf("\nBRAVO !");
             printf("\nvotre score est de %d coups",coups);
 
-            printf("\n");
+            printf("\n\n\n");
             system("pause");
+
+            // Effacer l'affichage
+            system("cls");
         }
 
 
-        // SCORES
+        // SCORES   (pas encore implemente)
 
         if(menu == 5){
+            // Effacer l'affichage
+            system("cls");
+
             printf("\n\nSCORES :");
         }
 
