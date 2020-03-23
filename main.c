@@ -26,8 +26,29 @@ int tableauMap[10][10];
 int map = 0;
 
 
+
+void fonctionLog (char fonctionLogEcriture[255]){
+
+    FILE * fp;
+
+    // Log ecriture
+
+    fp = fopen("log.txt", "a");
+
+    if (fp == NULL){
+        printf("Erreur fopen\n");
+        if (!fp)perror("fopen");
+        exit(1);
+    }
+
+    fprintf(fp,"%s",fonctionLogEcriture);
+
+    fclose(fp);
+}
+
 int fonctionMenu (){
     int choixMenu = 0;
+    fonctionLog("choixMenu = 0\n\n");    //log
 
     printf("\n\n\nMENU :");
     printf("\n\n1) Afficher l'aide");
@@ -39,6 +60,7 @@ int fonctionMenu (){
 
     printf("\n\n");
     scanf("%d", &choixMenu);
+    fonctionLog("choixMenu = ?\n\n");    //log
 
     return choixMenu;
 }
@@ -271,11 +293,13 @@ int fonctionMap(){
 }
 
 int main() {
+
+
     setbuf(stdout,0);
 
     // plein ecran (source : https://codes-sources.commentcamarche.net/forum/affich-371867-plein-ecran-c-console)
-    HWND hwnd=GetForegroundWindow();
-    ShowWindow(hwnd,SW_MAXIMIZE);
+    //HWND hwnd=GetForegroundWindow();
+    //ShowWindow(hwnd,SW_MAXIMIZE);
 
 
     // Déclarations + initialisations
@@ -289,6 +313,9 @@ int main() {
     int coups = 0;
     int touche = 0;
     char ligneChar = 0;
+
+    fonctionLog("col = 0\nligne = 0\ntableau[10][10]\ntableauMap[10][10]\nmap = 0\n\n");    //log
+    fonctionLog("menu = 0\nmenuMap = 0\ni = 0\ngrille = 0\ngrilleMap = 0\nmapTemp = 0\ncoups = 0\ntouche = 0\nligneChar = 0\n\n");    //log
 
 
     srand( (unsigned)time( NULL ) ); // pour que le nbr soit différent à chaque fois
@@ -605,6 +632,7 @@ int main() {
 
     // Fin
 
+    fonctionLog("\n\n");
     printf("\n\n");
     return 0;
 }
