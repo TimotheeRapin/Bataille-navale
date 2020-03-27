@@ -6,8 +6,8 @@
 *       Version :                   0.1                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       18.03.2020                          *
-*       Nouveautés :                Sortir du jeu                       *
+*       Date de mise à jour :       27.03.2020                          *
+*       Nouveautés :                maps externes                       *
 *                                                                       *
 *************************************************************************
 */
@@ -27,7 +27,7 @@ int map = 0;
 
 
 
-void fonctionLog (char fonctionLogEcriture[255]){
+void fonctionLog (char fonctionLogEcriture[255],int valeur){
 
     FILE * fp;
 
@@ -41,14 +41,16 @@ void fonctionLog (char fonctionLogEcriture[255]){
         exit(1);
     }
 
-    fprintf(fp,"%s",fonctionLogEcriture);
+    if (valeur != -679458374){
+        fprintf(fp,"%s\t= %d\n",fonctionLogEcriture,valeur);
+    }
 
     fclose(fp);
 }
 
 int fonctionMenu (){
     int choixMenu = 0;
-    fonctionLog("choixMenu = 0\n\n");    //log
+    fonctionLog("choixMenu",choixMenu);    //log
 
     printf("\n\n\nMENU :");
     printf("\n\n1) Afficher l'aide");
@@ -60,7 +62,7 @@ int fonctionMenu (){
 
     printf("\n\n");
     scanf("%d", &choixMenu);
-    fonctionLog("choixMenu = ?\n\n");    //log
+    fonctionLog("choixMenu",choixMenu);    //log
 
     return choixMenu;
 }
@@ -72,11 +74,16 @@ int fonctionGrille(){
     int jFonction = 0;
     char lettre = 65;
 
+    fonctionLog("iFonction",iFonction);    //log
+    fonctionLog("jFonction",jFonction);    //log
+    fonctionLog("lettre\t",lettre);    //log
+
 
     // Affichage numéro de collones
 
     printf("\n\n     ");
     for(iFonction = 1; iFonction <= 10; iFonction++){
+        fonctionLog("iFonction",iFonction);    //log
         printf("%-6d", iFonction);
     }
 
@@ -85,6 +92,7 @@ int fonctionGrille(){
 
     printf("\n  %c", 201);
     for(iFonction = 1; iFonction < 10; iFonction++){
+        fonctionLog("iFonction",iFonction);    //log
         printf("%c%c%c%c%c%c",205,205,205,205,205,203);
     }
     printf("%c%c%c%c%c%c",205,205,205,205,205,187);
@@ -93,9 +101,12 @@ int fonctionGrille(){
     // Affichage tableau
 
     for(iFonction = 0; iFonction < 9; iFonction++){
+        fonctionLog("iFonction",iFonction);    //log
         printf("\n%c ",lettre);
         lettre++;
+        fonctionLog("lettre\t",lettre);    //log
         for(jFonction = 0; jFonction < 10; jFonction++){
+            fonctionLog("jFonction",jFonction);    //log
             switch(tableau[iFonction][jFonction]){
                 case 0: printf("%c     ",186);
                     break;
@@ -113,6 +124,7 @@ int fonctionGrille(){
 
         printf("\n  %c",204);
         for(jFonction = 1; jFonction < 10; jFonction++){
+            fonctionLog("jFonction",jFonction);    //log
             printf("%c%c%c%c%c%c",205,205,205,205,205,206);
         }
         printf("%c%c%c%c%c%c",205,205,205,205,205,185);
@@ -122,9 +134,11 @@ int fonctionGrille(){
     // Affichage dernière ligne
 
     iFonction = 9;
+    fonctionLog("iFonction",iFonction);    //log
     printf("\n%c ",lettre);
     lettre++;
     for(jFonction = 0; jFonction < 10; jFonction++){
+        fonctionLog("jFonction",jFonction);    //log
         switch(tableau[iFonction][jFonction]){
             case 0: printf("%c     ",186);
                 break;
@@ -142,6 +156,7 @@ int fonctionGrille(){
 
     printf("\n  %c",200);
     for(jFonction = 1; jFonction < 10; jFonction++){
+        fonctionLog("jFonction",jFonction);    //log
         printf("%c%c%c%c%c%c",205,205,205,205,205,202);
     }
     printf("%c%c%c%c%c%c",205,205,205,205,205,188);
@@ -150,7 +165,44 @@ int fonctionGrille(){
     return 0;
 }
 
-int fonctionMap(){
+int fonctionMap(fonctionMap){
+
+    char fonctionTableauMapLigne = 0;
+    char fonctionTableauMapCol = 0;
+
+    FILE * fp;
+
+    switch(fonctionMap){
+        case 1:
+            fp = fopen("map1.txt", "r");
+
+            if (fp == NULL){
+                printf("Erreur fopen\n");
+                perror("fopen");
+                exit(1);
+            }
+
+            char c = fgetc(fp);
+            while ((c != EOF)){
+                fonctionTableauMapLigne = c -48;
+                c = fgetc(fp);
+                fonctionTableauMapCol = c -48;
+                c = fgetc(fp);
+                tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = 1;
+            }
+
+            fclose(fp);
+            break;
+    }
+
+
+
+
+
+
+
+
+
 
 
     switch(map){
@@ -189,6 +241,7 @@ int fonctionMap(){
             break;
 
         // map jeux 1
+        /*
         case 3:
             tableauMap[1][1] = 1;
             tableauMap[1][2] = 1;
@@ -211,7 +264,7 @@ int fonctionMap(){
 
             tableauMap[9][0] = 1;
             tableauMap[9][1] = 1;
-            break;
+            break;*/
 
         // map jeu 2
         case 4:
@@ -298,8 +351,8 @@ int main() {
     setbuf(stdout,0);
 
     // plein ecran (source : https://codes-sources.commentcamarche.net/forum/affich-371867-plein-ecran-c-console)
-    //HWND hwnd=GetForegroundWindow();
-    //ShowWindow(hwnd,SW_MAXIMIZE);
+    HWND hwnd=GetForegroundWindow();
+    ShowWindow(hwnd,SW_MAXIMIZE);
 
 
     // Déclarations + initialisations
@@ -314,8 +367,20 @@ int main() {
     int touche = 0;
     char ligneChar = 0;
 
-    fonctionLog("col = 0\nligne = 0\ntableau[10][10]\ntableauMap[10][10]\nmap = 0\n\n");    //log
-    fonctionLog("menu = 0\nmenuMap = 0\ni = 0\ngrille = 0\ngrilleMap = 0\nmapTemp = 0\ncoups = 0\ntouche = 0\nligneChar = 0\n\n");    //log
+    fonctionLog("col\t\t",col);    //log
+    fonctionLog("ligne\t",ligne);    //log
+//    fonctionLog("tableau[10][10]",tableau);    //log
+//    fonctionLog("tableauMap[10][10]",tableauMap);    //log
+    fonctionLog("map\t\t",map);    //log
+    fonctionLog("menu\t",menu);    //log
+    fonctionLog("menuMap\t",menuMap);    //log
+    fonctionLog("i\t\t",i);    //log
+    fonctionLog("grille\t",grille);    //log
+    fonctionLog("grilleMap",grilleMap);    //log
+    fonctionLog("mapTemp\t",mapTemp);    //log
+    fonctionLog("coups\t",coups);    //log
+    fonctionLog("touche\t",touche);    //log
+    fonctionLog("ligneChar",ligneChar);    //log
 
 
     srand( (unsigned)time( NULL ) ); // pour que le nbr soit différent à chaque fois
@@ -324,7 +389,9 @@ int main() {
     //  Vider le tableau
 
     for(ligne = 0; ligne < 10; ligne++){
+        fonctionLog("ligne\t",ligne);    //log
         for(col = 0; col < 10; col++){
+            fonctionLog("col\t\t",col);    //log
             tableau[ligne][col] = 0;
         }
     }
@@ -335,15 +402,19 @@ int main() {
 
     printf("\n\n%c", 201);
     for(i = 0; i < 17; i++){
+        fonctionLog("i\t\t",i);    //log
         printf("%c", 205);
     }
     printf("%c", 187);
     printf("\n%c BATAILLE-NAVALE %c", 186, 186);
     printf("\n%c", 200);
     for(i = 0; i < 17; i++){
+        fonctionLog("i\t\t",i);    //log
         printf("%c", 205);
     }
     printf("%c", 188);
+
+    mapTemp = fonctionMap(1);
 
     // Affichage bateau (source : http://www.ascii-fr.com/-Bateaux-.html#id1127)
     printf("\n\n\n");
@@ -399,12 +470,15 @@ int main() {
             // map exemple
 
             for(ligne = 0; ligne < 10; ligne++){
+                fonctionLog("ligne\t",ligne);    //log
                 for(col = 0; col < 10; col++){
+                    fonctionLog("col\t\t",col);    //log
                     tableau[ligne][col] = 0;
                 }
             }
 
             map = 1;
+            fonctionLog("map\t\t",map);    //log
             mapTemp = fonctionMap();
             grille = fonctionGrille();
 
@@ -424,6 +498,7 @@ int main() {
             // map nbr et type de bateaux
 
             map = 2;
+            fonctionLog("map\t\t",map);    //log
             mapTemp = fonctionMap();
             grille = fonctionGrille();
 
@@ -454,6 +529,7 @@ int main() {
             system("cls");
 
             map = 0;
+            fonctionLog("map\t\t",map);    //log
         }
 
 
@@ -479,6 +555,7 @@ int main() {
             // printf("\n3) Supprimer une map");
             printf("\n\n");
             scanf("%d",&menuMap);
+            fonctionLog("menuMap\t",menuMap);    //log
 
             // Effacer l'affichage
             system("cls");
@@ -490,7 +567,9 @@ int main() {
                     printf("\nchoisissez une map entre 1 et 4 (0 pour aleatoire) :");
                     printf("\n\n");
                     scanf("%d",&map);
-                    map = map + 2;
+                    fonctionLog("map\t\t",map);    //log
+                    fonctionMap(map);
+                    fonctionLog("map\t\t",map);    //log
                     break;
 
                 //  ajout d'une map
@@ -516,7 +595,9 @@ int main() {
             //  Remise a 0 de la map
 
             for(ligne = 0; ligne < 10; ligne++){
+                fonctionLog("ligne\t",ligne);    //log
                 for(col = 0; col < 10; col++){
+                    fonctionLog("col\t\t",col);    //log
                     tableau[ligne][col] = 0;
                 }
             }
@@ -525,7 +606,9 @@ int main() {
 
             if(map == 0){
                 map = 1 + rand() % 4;
+                fonctionLog("map\t\t",map);    //log
                 map = map + 2;
+                fonctionLog("map\t\t",map);    //log
             }
 
             // Effacer l'affichage
@@ -536,19 +619,23 @@ int main() {
             printf("\n\nJEU :");
             grille = fonctionGrille();
             touche = 0;
+            fonctionLog("touche\t",touche);    //log
 
 
             //  Continue tant que tous les bateaux n'ont pas tous ete touches
 
             while(touche < 17){
+                fonctionLog("touche\t",touche);    //log
                 grilleMap = fonctionMap();
 
                 do{
 
                     ligne = -1;
+                    fonctionLog("ligne\t",ligne);    //log
                     //do{
                         printf("\nligne : ");
                         scanf("%c",&ligneChar);
+                        fonctionLog("ligneChar",ligneChar);    //log
 
 
                     //}while((ligneChar < 49) || ((ligneChar > 74) && (ligneChar < 97)) || (ligneChar > 106));
@@ -565,16 +652,22 @@ int main() {
 
                     // A-J -> 0-9
                     if((ligneChar >= 65) && (ligneChar <= 74)){
+                        fonctionLog("ligneChar",ligneChar);    //log
                         ligne = ligneChar - 64;
+                        fonctionLog("ligneChar",ligneChar);    //log
                     }
                     // a-j -> 0-9
                     if((ligneChar > 96) && (ligneChar < 123)){
+                        fonctionLog("ligneChar",ligneChar);    //log
                         ligne = ligneChar - 96;
+                        fonctionLog("ligneChar",ligneChar);    //log
                     }
                     // Sortir du jeu
                     if((ligneChar == 88) || (ligneChar == 120)){
                         ligne = 1;
+                        fonctionLog("ligne\t",ligne);    //log
                         touche = 17;
+                        fonctionLog("touche\t",touche);    //log
                     }
                 }while((ligne < 1) || (ligne > 10));
 
@@ -583,6 +676,7 @@ int main() {
                 do{
                     printf("\ncolonne : ");
                     scanf("%d", &col);
+                    fonctionLog("col\t\t",col);    //log
                 }while((col < 1) || (col > 10));
 
 
@@ -591,6 +685,7 @@ int main() {
                 if(tableauMap[ligne-1][col-1] == 1){
                     tableau[ligne-1][col-1] = 3;
                     touche++;
+                    fonctionLog("touche\t",touche);    //log
                 }
                 // Marquer comme dans l'eau
                 else{
@@ -603,7 +698,9 @@ int main() {
                 grille = fonctionGrille();
 
                 coups++;
+                fonctionLog("coups\t",coups);    //log
                 map = 0;
+                fonctionLog("map\t\t",map);    //log
             }
 
             printf("\nBRAVO !");
@@ -632,7 +729,7 @@ int main() {
 
     // Fin
 
-    fonctionLog("\n\n");
+    fonctionLog("\n\n",-679458374);
     printf("\n\n");
     return 0;
 }
