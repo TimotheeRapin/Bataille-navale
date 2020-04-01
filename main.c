@@ -6,7 +6,7 @@
 *       Version :                   0.1                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       27.03.2020                          *
+*       Date de mise à jour :       01.04.2020                          *
 *       Nouveautés :                maps externes                       *
 *                                                                       *
 *************************************************************************
@@ -182,13 +182,20 @@ int fonctionMap(fonctionMap){
                 exit(1);
             }
 
-            char c = fgetc(fp);
+            char c = '0';
             while ((c != EOF)){
-                fonctionTableauMapLigne = c -48;
                 c = fgetc(fp);
-                fonctionTableauMapCol = c -48;
-                c = fgetc(fp);
-                tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = 1;
+                if (c != EOF){
+                    fonctionTableauMapLigne = c -48;
+
+                    c = fgetc(fp);
+                    if (c != EOF){
+                        fonctionTableauMapCol = c -48;
+                        tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = 1;
+                    }
+                }
+
+
             }
 
             fclose(fp);
@@ -204,7 +211,7 @@ int fonctionMap(fonctionMap){
 
 
 
-
+/*
     switch(map){
 
         // map symboles
@@ -241,7 +248,7 @@ int fonctionMap(fonctionMap){
             break;
 
         // map jeux 1
-        /*
+
         case 3:
             tableauMap[1][1] = 1;
             tableauMap[1][2] = 1;
@@ -264,7 +271,7 @@ int fonctionMap(fonctionMap){
 
             tableauMap[9][0] = 1;
             tableauMap[9][1] = 1;
-            break;*/
+            break;
 
         // map jeu 2
         case 4:
@@ -341,7 +348,7 @@ int fonctionMap(fonctionMap){
             tableauMap[9][9] = 1;
             break;
     }
-
+*/
     return 0;
 }
 
@@ -568,7 +575,7 @@ int main() {
                     printf("\n\n");
                     scanf("%d",&map);
                     fonctionLog("map\t\t",map);    //log
-                    fonctionMap(map);
+                    mapTemp = fonctionMap(map);
                     fonctionLog("map\t\t",map);    //log
                     break;
 
