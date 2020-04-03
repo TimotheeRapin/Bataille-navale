@@ -231,14 +231,6 @@ int fonctionMap(int fonctionMapValeur){
         }
         fclose(fp);
 
-        printf("\n");
-        for(int i = 0;i<10;i++){
-            for(int j = 0;j<10;j++){
-                printf("%d",tableauMap[i][j]);
-            }
-            printf("\n");
-        }
-
 
 /*
     switch(map){
@@ -280,6 +272,24 @@ int fonctionMap(int fonctionMapValeur){
     }*/
 
     return 0;
+}
+
+void fonctionScoresEcriture(char fonctionPseudo[255], int fonctionScore){
+
+    FILE * fp;
+
+    fp = fopen("scores.txt", "a");
+
+
+    if (fp == NULL){
+        printf("\n\nErreur fopen\n");
+        perror("fopen");
+        exit(1);
+    }
+
+    fprintf(fp,"%s;%d",fonctionPseudo,fonctionScore);
+
+    fclose(fp);
 }
 
 int main() {
@@ -526,8 +536,6 @@ int main() {
 
         if (menu == 4){
 
-            //  Remise a 0 de la map
-
             // remise à 0
 
             for(i = 0; i < 10; i++){
@@ -536,14 +544,8 @@ int main() {
                 }
             }
 
+            coups = 0;
 
-            for(ligne = 0; ligne < 10; ligne++){
-                fonctionLog("ligne\t",ligne);    //log
-                for(col = 0; col < 10; col++){
-                    fonctionLog("col\t\t",col);    //log
-                    tableau[ligne][col] = 0;
-                }
-            }
 
             // map aléatoire
 
