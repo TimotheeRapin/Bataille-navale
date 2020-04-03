@@ -7,7 +7,7 @@
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
 *       Date de mise à jour :       02.04.2020                          *
-*       Nouveautés :                maps externes                       *
+*       Nouveautés :                Remise à 0 du score                 *
 *                                                                       *
 *************************************************************************
 */
@@ -36,7 +36,7 @@ void fonctionLog (char fonctionLogEcriture[255],int valeur){
     fp = fopen("log.txt", "a");
 
     if (fp == NULL){
-        printf("Erreur fopen\n");
+        printf("\n\nErreur fopen\n");
         if (!fp)perror("fopen");
         exit(1);
     }
@@ -165,20 +165,28 @@ int fonctionGrille(){
     return 0;
 }
 
-int fonctionMap(int fonctionMap){
+int fonctionMap(int fonctionMapValeur){
 
     char fonctionTableauMapLigne = 0;
     char fonctionTableauMapCol = 0;
-    int type = 0; // 1=symboles, 2=BateauxDisponibles, 3=jeux
+    int type = 0;
+    int i = 0;
+    int j = 0;
+
+    // remise à 0
+
+    for(i = 0; i < 10; i++){
+        for (int j = 0; j < 10; ++j) {
+            tableauMap[i][j] = 0;
+        }
+    }
 
     FILE * fp;
 
-    switch(fonctionMap) {
+    switch(fonctionMapValeur) {
         case -1:
-            fp = fopen("mapSymboles.txt", "r");
-            break;
-        case -2:
             fp = fopen("mapBateauxDisponibles.txt", "r");
+            break;
         case 1:
             fp = fopen("map1.txt", "r");
             break;
@@ -194,7 +202,8 @@ int fonctionMap(int fonctionMap){
     }
 
         if (fp == NULL){
-            printf("Erreur fopen\n");
+            printf("\n\nErreur fopen\n");
+            printf("\n\nmap%d introuvable !\n",fonctionMapValeur);
             perror("fopen");
             exit(1);
         }
@@ -210,11 +219,26 @@ int fonctionMap(int fonctionMap){
                 c = fgetc(fp);
                 if (c != EOF){
                     fonctionTableauMapCol = c -48;
-                    tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = 1;
+                    //tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = type;
+                    c = fgetc(fp);
+                    if (c != EOF){
+                        type = c -48;
+                        tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = type;
+
+                    }
                 }
             }
         }
         fclose(fp);
+
+        printf("\n");
+        for(int i = 0;i<10;i++){
+            for(int j = 0;j<10;j++){
+                printf("%d",tableauMap[i][j]);
+            }
+            printf("\n");
+        }
+
 
 /*
     switch(map){
@@ -328,7 +352,7 @@ int main() {
     }
     printf("%c", 188);
 
-    mapTemp = fonctionMap(1);
+    //mapTemp = fonctionMap(1);
 
     // Affichage bateau (source : http://www.ascii-fr.com/-Bateaux-.html#id1127)
     printf("\n\n\n");
@@ -378,29 +402,6 @@ int main() {
             // printf("\nQuand un bateau est touche, il y a un x");
             // printf("\nQuand un bateau est coule, il y a un %c%c%c",219,219,219);
             printf("\nQuand un bateau est touche, il y a un %c%c%c",219,219,219);
-            printf("\n\nExemple :");
-
-
-            // map exemple
-
-            for(ligne = 0; ligne < 10; ligne++){
-                fonctionLog("ligne\t",ligne);    //log
-                for(col = 0; col < 10; col++){
-                    fonctionLog("col\t\t",col);    //log
-                    tableau[ligne][col] = 0;
-                }
-            }
-
-            map = 1;
-            fonctionLog("map\t\t",map);    //log
-            mapTemp = fonctionMap(map);
-            grille = fonctionGrille();
-
-            printf("\n\n\n");
-            system("pause");
-
-            // Effacer l'affichage
-            system("cls");
 
 
             // bateaux disponibles
@@ -408,12 +409,31 @@ int main() {
             printf("\n\nLes bateaux peuvent etre places verticalement ou horizontalement.");
             printf("\n\nBateaux disponibles :");
 
-
+            map = -1;
+            mapTemp = fonctionMap(map);
+            fonctionLog("map\t\t",map);    //log
             // map nbr et type de bateaux
 
+
+            for(i = 0; i < 10; i++){
+                for (int j = 0; j < 10; ++j) {
+                    //  Marquer comme touche
+
+                    if(tableauMap[i][j] == 1){
+                        tableau[i][j] = 3;
+                    }
+                        // Marquer comme dans l'eau
+                    else{
+                        tableau[i][j] = 1;
+                    }
+                }
+            }
+
+
+/*
             map = 2;
             fonctionLog("map\t\t",map);    //log
-            mapTemp = fonctionMap(map);
+            mapTemp = fonctionMap(map);*/
             grille = fonctionGrille();
 
             printf("\n\n\n");
@@ -507,6 +527,15 @@ int main() {
         if (menu == 4){
 
             //  Remise a 0 de la map
+
+            // remise à 0
+
+            for(i = 0; i < 10; i++){
+                for (int j = 0; j < 10; ++j) {
+                    tableau[i][j] = 0;
+                }
+            }
+
 
             for(ligne = 0; ligne < 10; ligne++){
                 fonctionLog("ligne\t",ligne);    //log
