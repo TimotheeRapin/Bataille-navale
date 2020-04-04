@@ -6,8 +6,8 @@
 *       Version :                   0.1                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       02.04.2020                          *
-*       Nouveautés :                Remise à 0 du score                 *
+*       Date de mise à jour :       04.04.2020                          *
+*       Nouveautés :                Authentification                    *
 *                                                                       *
 *************************************************************************
 */
@@ -23,7 +23,7 @@ int col = 0;
 int ligne = 0;
 int tableau[10][10];
 int tableauMap[10][10];
-//int map = 0;
+char globalPseudo[255] = "Aucun pseudo";
 
 
 
@@ -54,7 +54,7 @@ int fonctionMenu (){
 
     printf("\n\n\nMENU :");
     printf("\n\n1) Afficher l'aide");
-    // printf("\n2) S'authentifier");
+    printf("\n2) S'authentifier");
     printf("\n3) Choisir une map");
     printf("\n4) Jouer");
     // printf("\n5) Afficher les scores");
@@ -68,7 +68,7 @@ int fonctionMenu (){
 }
 
 // Fonction pour afficher la grille (touché, dans l'eau)
-int fonctionGrille(){
+void fonctionGrille(){
 
     int iFonction = 0;
     int jFonction = 0;
@@ -160,12 +160,9 @@ int fonctionGrille(){
         printf("%c%c%c%c%c%c",205,205,205,205,205,202);
     }
     printf("%c%c%c%c%c%c",205,205,205,205,205,188);
-
-
-    return 0;
 }
 
-int fonctionMap(int fonctionMapValeur){
+void fonctionMap(int fonctionMapValeur){
 
     char fonctionTableauMapLigne = 0;
     char fonctionTableauMapCol = 0;
@@ -230,48 +227,6 @@ int fonctionMap(int fonctionMapValeur){
             }
         }
         fclose(fp);
-
-
-/*
-    switch(map){
-
-        // map symboles
-        case 1:
-            tableau[0][0] = 0;
-            tableau[0][1] = 1;
-            // tableau[0][2] = 2;
-            tableau[0][3] = 3;
-            break;
-
-        // map nbr et type de bateaux
-        case 2:
-            tableau[0][0] = 3;
-            tableau[0][1] = 3;
-            tableau[0][2] = 3;
-            tableau[0][3] = 3;
-            tableau[0][4] = 3;
-
-            tableau[2][0] = 3;
-            tableau[2][1] = 3;
-            tableau[2][2] = 3;
-            tableau[2][3] = 3;
-
-            tableau[4][0] = 3;
-            tableau[4][1] = 3;
-            tableau[4][2] = 3;
-
-            tableau[6][0] = 3;
-            tableau[6][1] = 3;
-            tableau[6][2] = 3;
-
-            tableau[8][0] = 3;
-            tableau[8][1] = 3;
-            break;
-
-
-    }*/
-
-    return 0;
 }
 
 void fonctionScoresEcriture(char fonctionPseudo[255], int fonctionScore){
@@ -292,6 +247,30 @@ void fonctionScoresEcriture(char fonctionPseudo[255], int fonctionScore){
     fclose(fp);
 }
 
+void fonctionPseudoCreation(){
+    char c[255];
+    int i = 0;
+
+    for (int i = 0; i < 255; ++i) {
+        c[i] = 0;
+    }
+
+    printf("Entrez votre pseudo :\t");
+
+    scanf("%s",&c);
+    if(((c > 47) && (c < 58)) || ((c > 64) && (c < 91)) || ((c > 96) && (c < 123))){
+        printf("1\t%s",c);
+    }
+    for(i = 0;i < 10;i++){
+        printf("2\t%d\n",c[i]);
+    }
+
+    for(i = 0;i < 255;i++){
+        globalPseudo[i] = c[i];
+    }
+
+}
+
 int main() {
 
 
@@ -309,7 +288,6 @@ int main() {
     int i = 0;
     int grille = 0;
     int grilleMap = 0;
-    int mapTemp = 0;
     int coups = 0;
     int touche = 0;
     char ligneChar = 0;
@@ -325,7 +303,6 @@ int main() {
     fonctionLog("i\t\t",i);    //log
     fonctionLog("grille\t",grille);    //log
     fonctionLog("grilleMap",grilleMap);    //log
-    fonctionLog("mapTemp\t",mapTemp);    //log
     fonctionLog("coups\t",coups);    //log
     fonctionLog("touche\t",touche);    //log
     fonctionLog("ligneChar",ligneChar);    //log
@@ -343,6 +320,9 @@ int main() {
             tableau[ligne][col] = 0;
         }
     }
+
+
+
 
 
 
@@ -394,9 +374,18 @@ int main() {
 
     do {
 
+
+
+
+
+
         // MENU
 
         menu = fonctionMenu();
+
+
+
+
 
 
         // AIDE
@@ -420,7 +409,7 @@ int main() {
             printf("\n\nBateaux disponibles :");
 
             map = -1;
-            mapTemp = fonctionMap(map);
+            fonctionMap(map);
             fonctionLog("map\t\t",map);    //log
             // map nbr et type de bateaux
 
@@ -444,7 +433,7 @@ int main() {
             map = 2;
             fonctionLog("map\t\t",map);    //log
             mapTemp = fonctionMap(map);*/
-            grille = fonctionGrille();
+            fonctionGrille();
 
             printf("\n\n\n");
             system("pause");
@@ -477,6 +466,10 @@ int main() {
         }
 
 
+
+
+
+
         // AUTHENTIFICATION (pas encore implemente)
 
         if (menu == 2) {
@@ -484,7 +477,13 @@ int main() {
             system("cls");
 
             printf("\n\nAUTHENTIFICATION :");
+
+            fonctionPseudoCreation();
         }
+
+
+
+
 
 
         // MAPS
@@ -512,7 +511,7 @@ int main() {
                     printf("\n\n");
                     scanf("%d",&map);
                     fonctionLog("map\t\t",map);    //log
-                    mapTemp = fonctionMap(map);
+                    fonctionMap(map);
                     fonctionLog("map\t\t",map);    //log
                     break;
 
@@ -530,6 +529,10 @@ int main() {
 
         // Effacer l'affichage
         system("cls");
+
+
+
+
 
 
         // JEU
@@ -552,8 +555,7 @@ int main() {
             if(map == 0){
                 map = 1 + rand() % 4;
                 fonctionLog("map\t\t",map);    //log
-                mapTemp = fonctionMap(map);
-                fonctionLog("mapTemp\t\t",mapTemp);    //log
+                fonctionMap(map);
             }
 
             // Effacer l'affichage
@@ -562,7 +564,7 @@ int main() {
             //  Debut de partie
 
             printf("\n\nJEU :");
-            grille = fonctionGrille();
+            fonctionGrille();
             touche = 0;
             fonctionLog("touche\t",touche);    //log
 
@@ -571,7 +573,7 @@ int main() {
 
             while(touche < 17){
                 fonctionLog("touche\t",touche);    //log
-                grilleMap = fonctionMap(map);
+                fonctionMap(map);
 
                 do {
                     do {
@@ -643,7 +645,7 @@ int main() {
                 // Effacer l'affichage
                 system("cls");
 
-                grille = fonctionGrille();
+                fonctionGrille();
 
 
                 fonctionLog("coups\t",coups);    //log
@@ -653,6 +655,7 @@ int main() {
 
             printf("\nBRAVO !");
             printf("\nvotre score est de %d coups",coups);
+            fonctionScoresEcriture(globalPseudo,coups);
 
             printf("\n\n\n");
             system("pause");
@@ -662,6 +665,10 @@ int main() {
         }
 
 
+
+
+
+
         // SCORES   (pas encore implemente)
 
         if(menu == 5){
@@ -669,6 +676,8 @@ int main() {
             system("cls");
 
             printf("\n\nSCORES :");
+
+
         }
 
 
