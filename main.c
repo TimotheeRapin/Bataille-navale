@@ -7,7 +7,7 @@
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
 *       Date de mise à jour :       04.04.2020                          *
-*       Nouveautés :                Authentification                    *
+*       Nouveautés :                Résolution problème                 *
 *                                                                       *
 *************************************************************************
 */
@@ -37,7 +37,7 @@ void fonctionLog (char fonctionLogEcriture[255],int valeur){
 
     if (fp == NULL){
         printf("\n\nErreur fopen\n");
-        if (!fp)perror("fopen");
+        perror("fopen");
         exit(1);
     }
 
@@ -167,16 +167,7 @@ void fonctionMap(int fonctionMapValeur){
     char fonctionTableauMapLigne = 0;
     char fonctionTableauMapCol = 0;
     int type = 0;
-    int i = 0;
-    int j = 0;
 
-    // remise à 0
-
-    for(i = 0; i < 10; i++){
-        for (int j = 0; j < 10; ++j) {
-            tableauMap[i][j] = 0;
-        }
-    }
 
     FILE * fp;
 
@@ -198,35 +189,42 @@ void fonctionMap(int fonctionMapValeur){
             break;
     }
 
-        if (fp == NULL){
-            printf("\n\nErreur fopen\n");
-            printf("\n\nmap%d introuvable !\n",fonctionMapValeur);
-            perror("fopen");
-            exit(1);
-        }
+    if (fp == NULL){
+        printf("\n\nErreur fopen\n");
+        printf("\n\nmap%d introuvable !\n",fonctionMapValeur);
+        perror("fopen");
+        exit(1);
+    }
 
-        char c = '0';
+    char c = '0';
 
 
-        while ((c != EOF)){
+    while ((c != EOF)){
+        c = fgetc(fp);
+        if (c != EOF){
+            fonctionTableauMapLigne = c -65;
+
             c = fgetc(fp);
             if (c != EOF){
-                fonctionTableauMapLigne = c -65;
-
+                fonctionTableauMapCol = c -48;
                 c = fgetc(fp);
                 if (c != EOF){
-                    fonctionTableauMapCol = c -48;
-                    //tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = type;
-                    c = fgetc(fp);
-                    if (c != EOF){
-                        type = c -48;
-                        tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = type;
+                    type = c -48;
+                    tableauMap[fonctionTableauMapLigne][fonctionTableauMapCol] = type;
 
-                    }
                 }
             }
         }
-        fclose(fp);
+    }
+    fclose(fp);
+
+    printf("\n");
+    for(int i = 0;i<10;i++){
+        for(int j = 0;j<10;j++){
+            printf("%d",tableauMap[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 void fonctionScoresEcriture(char fonctionPseudo[255], int fonctionScore){
@@ -251,7 +249,7 @@ void fonctionPseudoCreation(){
     char c[255];
     int i = 0;
 
-    for (int i = 0; i < 255; ++i) {
+    for (i = 0; i < 255; ++i) {
         c[i] = 0;
     }
 
@@ -286,6 +284,7 @@ int main() {
     int menu = 0;
     int menuMap = 0;
     int i = 0;
+    int j = 0;
     int grille = 0;
     int grilleMap = 0;
     int coups = 0;
@@ -342,7 +341,6 @@ int main() {
     }
     printf("%c", 188);
 
-    //mapTemp = fonctionMap(1);
 
     // Affichage bateau (source : http://www.ascii-fr.com/-Bateaux-.html#id1127)
     printf("\n\n\n");
@@ -384,6 +382,16 @@ int main() {
         menu = fonctionMenu();
 
 
+        // remise à 0
+
+        for(i = 0; i < 10; i++){
+            for (j = 0; j < 10; ++j) {
+                tableauMap[i][j] = 0;
+            }
+        }
+
+
+
 
 
 
@@ -415,7 +423,7 @@ int main() {
 
 
             for(i = 0; i < 10; i++){
-                for (int j = 0; j < 10; ++j) {
+                for (j = 0; j < 10; ++j) {
                     //  Marquer comme touche
 
                     if(tableauMap[i][j] == 1){
@@ -515,12 +523,12 @@ int main() {
                     fonctionLog("map\t\t",map);    //log
                     break;
 
-                //  ajout d'une map
+                    //  ajout d'une map
                 case 2:
 
                     break;
 
-                //  suppression d'une map
+                    //  suppression d'une map
                 case 3:
 
                     break;
@@ -542,7 +550,7 @@ int main() {
             // remise à 0
 
             for(i = 0; i < 10; i++){
-                for (int j = 0; j < 10; ++j) {
+                for (j = 0; j < 10; ++j) {
                     tableau[i][j] = 0;
                 }
             }
@@ -636,7 +644,7 @@ int main() {
                     fonctionLog("touche\t",touche);    //log
                     coups++;
                 }
-                // Marquer comme dans l'eau
+                    // Marquer comme dans l'eau
                 else{
                     tableau[ligne-1][col-1] = 1;
                     coups++;
