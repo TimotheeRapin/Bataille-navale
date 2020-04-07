@@ -7,7 +7,7 @@
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
 *       Date de mise à jour :       07.04.2020                          *
-*       Nouveautés :                Affichage des scores                *
+*       Nouveautés :                Mise au propre du code              *
 *                                                                       *
 *************************************************************************
 */
@@ -19,14 +19,17 @@
 
 // tableau
 
-int col = 0;
-int ligne = 0;
 int tableau[10][10];
 int tableauMap[10][10];
 char globalPseudo[255] = "Aucun pseudo";
 
 
 
+/**
+ * Enregistre les logs des variable et leurs valeurs dans un fichier externe
+ * @param fonctionLogEcriture
+ * @param valeur
+ */
 void fonctionLog (char fonctionLogEcriture[255],int valeur){
 
     FILE * fp;
@@ -48,26 +51,58 @@ void fonctionLog (char fonctionLogEcriture[255],int valeur){
     fclose(fp);
 }
 
-int fonctionMenu (){
-    int choixMenu = 0;
-    fonctionLog("choixMenu",choixMenu);    //log
+/**
+ * Affiche le titre du jeu
+ */
+void fonctionTitre(){
+    int i = 0;
 
-    printf("\n\n\nMENU :");
-    printf("\n\n1) Afficher l'aide");
-    printf("\n2) S'authentifier");
-    printf("\n3) Choisir une map");
-    printf("\n4) Jouer");
-    printf("\n5) Afficher les scores");
-    printf("\n6) Quitter");
+    printf("\n\n%c", 201);
+    for(i = 0; i < 17; i++){
+        fonctionLog("i\t\t",i);    //log
+        printf("%c", 205);
+    }
+    printf("%c", 187);
+    printf("\n%c BATAILLE-NAVALE %c", 186, 186);
+    printf("\n%c", 200);
+    for(i = 0; i < 17; i++){
+        fonctionLog("i\t\t",i);    //log
+        printf("%c", 205);
+    }
+    printf("%c", 188);
 
-    printf("\n\n");
-    scanf("%d", &choixMenu);
-    fonctionLog("choixMenu",choixMenu);    //log
 
-    return choixMenu;
+    // Affichage bateau (source : http://www.ascii-fr.com/-Bateaux-.html#id1127)
+    printf("\n\n\n");
+    printf("                       $o\n"
+           "                       $                     .........\n"
+           "                      $$$      .oo..     'oooo'oooo'ooooooooo....\n"
+           "                       $       $$$$$$$\n"
+           "                   .ooooooo.   $$!!!!!\n"
+           "                 .'.........'. $$!!!!!      o$$oo.   ...oo,oooo,oooo'ooo''\n"
+           "    $          .o'  oooooo   '.$$!!!!!      $$!!!!!       'oo''oooo''\n"
+           " ..o$ooo...    $                '!!''!.     $$!!!!!\n"
+           " $    ..  '''oo$$$$$$$$$$$$$.    '    'oo.  $$!!!!!\n"
+           " !.......      '''..$$ $$ $$$   ..        '.$$!!''!\n"
+           " !!$$$!!!!!!!!oooo......   '''  $$ $$ :o           'oo.\n"
+           " !!$$$!!!$$!$$!!!!!!!!!!oo.....     ' ''  o$$o .      ''oo..\n"
+           " !!!$$!!!!!!!!!!!!!!!!!!!!!!!!!!!!ooooo..      'o  oo..    $\n"
+           "  '!!$$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!oooooo..  ''   ,$\n"
+           "   '!!$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!oooo..$$\n"
+           "    !!$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$'\n"
+           "    '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$!!!!!!!!!!!!!!!!!!,\n"
+           ".....$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$.....");
+
+    printf("\n\n\n");
+    system("pause");
+
+    // Effacer l'affichage
+    system("cls");
 }
 
-// Fonction pour afficher la grille (touché, dans l'eau)
+/**
+ * Afficher la grille (touché, dans l'eau)
+ */
 void fonctionGrille(){
 
     int iFonction = 0;
@@ -136,7 +171,6 @@ void fonctionGrille(){
     iFonction = 9;
     fonctionLog("iFonction",iFonction);    //log
     printf("\n%c ",lettre);
-    lettre++;
     for(jFonction = 0; jFonction < 10; jFonction++){
         fonctionLog("jFonction",jFonction);    //log
         switch(tableau[iFonction][jFonction]){
@@ -162,6 +196,10 @@ void fonctionGrille(){
     printf("%c%c%c%c%c%c",205,205,205,205,205,188);
 }
 
+/**
+ * Charge les maps choisies (aide et jeu)
+ * @param fonctionMapValeur
+ */
 void fonctionMap(int fonctionMapValeur){
 
     char fonctionTableauMapLigne = 0;
@@ -186,6 +224,30 @@ void fonctionMap(int fonctionMapValeur){
             break;
         case 4:
             fp = fopen("../maps/map4.txt", "r");
+            break;
+        case 5:
+            fp = fopen("../maps/map5.txt", "r");
+            break;
+        case 6:
+            fp = fopen("../maps/map6.txt", "r");
+            break;
+        case 7:
+            fp = fopen("../maps/map7.txt", "r");
+            break;
+        case 8:
+            fp = fopen("../maps/map8.txt", "r");
+            break;
+        case 9:
+            fp = fopen("../maps/map9.txt", "r");
+            break;
+        case 10:
+            fp = fopen("../maps/map10.txt", "r");
+            break;
+        case 11:
+            fp = fopen("../maps/map11.txt", "r");
+            break;
+        case 12:
+            fp = fopen("../maps/map12.txt", "r");
             break;
     }
 
@@ -217,16 +279,13 @@ void fonctionMap(int fonctionMapValeur){
         }
     }
     fclose(fp);
-
-    printf("\n");
-    for(int i = 0;i<10;i++){
-        for(int j = 0;j<10;j++){
-            printf("%d",tableauMap[i][j]);
-        }
-        printf("\n");
-    }
 }
 
+/**
+ * Enregistre les scores dans un fichier externe
+ * @param fonctionPseudo
+ * @param fonctionScore
+ */
 void fonctionScoresEcriture(char fonctionPseudo[255], int fonctionScore){
 
     FILE * fp;
@@ -245,6 +304,9 @@ void fonctionScoresEcriture(char fonctionPseudo[255], int fonctionScore){
     fclose(fp);
 }
 
+/**
+ * Creer un pseudo pour l'enregistrer dans les scores
+ */
 void fonctionPseudoCreation(){
     char c[255];
     int i = 0;
@@ -252,6 +314,11 @@ void fonctionPseudoCreation(){
     for (i = 0; i < 255; ++i) {
         c[i] = 0;
     }
+
+    // Effacer l'affichage
+    system("cls");
+
+    printf("\n\nAUTHENTIFICATION :\n");
 
     printf("Entrez votre pseudo :\t");
 
@@ -269,6 +336,9 @@ void fonctionPseudoCreation(){
 
 }
 
+/**
+ * Affiche les scores qui sont dans le fichier externe
+ */
 void fonctionScoresLecture(){
 
     char c = 0;
@@ -277,6 +347,11 @@ void fonctionScoresLecture(){
     FILE * fp;
 
     fp = fopen("../scores.txt", "r");
+
+    // Effacer l'affichage
+    system("cls");
+
+    printf("\n\nSCORES :\n\n");
 
 
     if (fp == NULL){
@@ -335,6 +410,126 @@ void fonctionScoresLecture(){
     fclose(fp);
 }
 
+/**
+ * Affiche l'aide avec les bateaux disponibles
+ */
+void fonctionAide(){
+    int map = 0;
+    int i = 0;
+    int j = 0;
+
+    // Effacer l'affichage
+    system("cls");
+
+    printf("\n\nAIDE :");
+    printf("\n\nQuand une case n'est pas designee, la case reste vide");
+    printf("\nQuand c'est dans l'eau, il y a un %c",250);
+    printf("\nQuand un bateau est touche, il y a un %c%c%c",219,219,219);
+
+
+    // bateaux disponibles
+
+    printf("\n\nLes bateaux peuvent etre places verticalement ou horizontalement.");
+    printf("\n\nBateaux disponibles :");
+
+    map = -1;
+    fonctionMap(map);
+    fonctionLog("map\t\t",map);    //log
+    // map nbr et type de bateaux
+
+
+    for(i = 0; i < 10; i++){
+        for (j = 0; j < 10; ++j) {
+            //  Marquer comme touche
+
+            if(tableauMap[i][j] == 1){
+                tableau[i][j] = 3;
+            }
+                // Marquer comme dans l'eau
+            else{
+                tableau[i][j] = 1;
+            }
+        }
+    }
+
+
+    fonctionGrille();
+
+    printf("\n\n\n");
+    system("pause");
+
+    // Effacer l'affichage
+    system("cls");
+
+
+    // dernier commentaire pour l'aide
+
+    printf("\n\nLes bateaux ne peuvent pas etre colles l'un contre l'autre (en diagonale non plus)");
+
+    printf("\n\n\n");
+    system("pause");
+
+    // Effacer l'affichage
+    system("cls");
+
+    printf("\nVous pouvez quitter le jeu en mettant x quand la ligne vous est demandee");
+    printf("\nIl faudra cependant entrer une colonne entre 1-10 juste apres");
+
+    printf("\n\n\n");
+    system("pause");
+
+    // Effacer l'affichage
+    system("cls");
+
+    map = 0;
+    fonctionLog("map\t\t",map);    //log
+}
+
+/**
+ * affiche le menu qui redirige vers les différentes fonctions
+ * @return
+ */
+int fonctionMenu (){
+    int choixMenu = 0;
+    int i = 0;
+    int j = 0;
+    fonctionLog("choixMenu",choixMenu);    //log
+
+    // remise à 0
+
+    for(i = 0; i < 10; i++){
+        for (j = 0; j < 10; ++j) {
+            tableauMap[i][j] = 0;
+        }
+    }
+
+    printf("\n\n\nMENU :");
+    printf("\n\n1) Afficher l'aide");
+    printf("\n2) S'authentifier");
+    printf("\n3) Choisir une map");
+    printf("\n4) Jouer");
+    printf("\n5) Afficher les scores");
+    printf("\n6) Quitter");
+
+    printf("\n\n");
+    scanf("%d", &choixMenu);
+    fonctionLog("choixMenu",choixMenu);    //log
+
+    switch (choixMenu){
+        case 1:
+            fonctionAide();
+            break;
+        case 2:
+            fonctionPseudoCreation();
+            break;
+        case 5:
+            fonctionScoresLecture();
+            break;
+    }
+
+    return choixMenu;
+}
+
 int main() {
 
 
@@ -357,6 +552,8 @@ int main() {
     int touche = 0;
     char ligneChar = 0;
     int map = 0;
+    int col = 0;
+    int ligne = 0;
 
     fonctionLog("col\t\t",col);    //log
     fonctionLog("ligne\t",ligne);    //log
@@ -387,174 +584,27 @@ int main() {
     }
 
 
+fonctionTitre();
 
 
-
-
-    // Titre
-
-    printf("\n\n%c", 201);
-    for(i = 0; i < 17; i++){
-        fonctionLog("i\t\t",i);    //log
-        printf("%c", 205);
-    }
-    printf("%c", 187);
-    printf("\n%c BATAILLE-NAVALE %c", 186, 186);
-    printf("\n%c", 200);
-    for(i = 0; i < 17; i++){
-        fonctionLog("i\t\t",i);    //log
-        printf("%c", 205);
-    }
-    printf("%c", 188);
-
-
-    // Affichage bateau (source : http://www.ascii-fr.com/-Bateaux-.html#id1127)
-    printf("\n\n\n");
-    printf("                       $o\n"
-           "                       $                     .........\n"
-           "                      $$$      .oo..     'oooo'oooo'ooooooooo....\n"
-           "                       $       $$$$$$$\n"
-           "                   .ooooooo.   $$!!!!!\n"
-           "                 .'.........'. $$!!!!!      o$$oo.   ...oo,oooo,oooo'ooo''\n"
-           "    $          .o'  oooooo   '.$$!!!!!      $$!!!!!       'oo''oooo''\n"
-           " ..o$ooo...    $                '!!''!.     $$!!!!!\n"
-           " $    ..  '''oo$$$$$$$$$$$$$.    '    'oo.  $$!!!!!\n"
-           " !.......      '''..$$ $$ $$$   ..        '.$$!!''!\n"
-           " !!$$$!!!!!!!!oooo......   '''  $$ $$ :o           'oo.\n"
-           " !!$$$!!!$$!$$!!!!!!!!!!oo.....     ' ''  o$$o .      ''oo..\n"
-           " !!!$$!!!!!!!!!!!!!!!!!!!!!!!!!!!!ooooo..      'o  oo..    $\n"
-           "  '!!$$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!oooooo..  ''   ,$\n"
-           "   '!!$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!oooo..$$\n"
-           "    !!$!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$'\n"
-           "    '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$!!!!!!!!!!!!!!!!!!,\n"
-           ".....$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$.....");
-
-    printf("\n\n\n");
-    system("pause");
-
-    // Effacer l'affichage
-    system("cls");
 
 
     do {
 
+        // Aide pour la premierre fois
+        FILE * fp;
 
+        fp = fopen("../log.txt", "r");
 
+        if (fp == NULL){
+            fonctionAide();
+        }
 
 
 
         // MENU
 
         menu = fonctionMenu();
-
-
-        // remise à 0
-
-        for(i = 0; i < 10; i++){
-            for (j = 0; j < 10; ++j) {
-                tableauMap[i][j] = 0;
-            }
-        }
-
-
-
-
-
-
-
-        // AIDE
-
-        if (menu == 1) {
-
-            // Effacer l'affichage
-            system("cls");
-
-            printf("\n\nAIDE :");
-            printf("\n\nQuand une case n'est pas designee, la case reste vide");
-            printf("\nQuand c'est dans l'eau, il y a un %c",250);
-            // printf("\nQuand un bateau est touche, il y a un x");
-            // printf("\nQuand un bateau est coule, il y a un %c%c%c",219,219,219);
-            printf("\nQuand un bateau est touche, il y a un %c%c%c",219,219,219);
-
-
-            // bateaux disponibles
-
-            printf("\n\nLes bateaux peuvent etre places verticalement ou horizontalement.");
-            printf("\n\nBateaux disponibles :");
-
-            map = -1;
-            fonctionMap(map);
-            fonctionLog("map\t\t",map);    //log
-            // map nbr et type de bateaux
-
-
-            for(i = 0; i < 10; i++){
-                for (j = 0; j < 10; ++j) {
-                    //  Marquer comme touche
-
-                    if(tableauMap[i][j] == 1){
-                        tableau[i][j] = 3;
-                    }
-                        // Marquer comme dans l'eau
-                    else{
-                        tableau[i][j] = 1;
-                    }
-                }
-            }
-
-
-/*
-            map = 2;
-            fonctionLog("map\t\t",map);    //log
-            mapTemp = fonctionMap(map);*/
-            fonctionGrille();
-
-            printf("\n\n\n");
-            system("pause");
-
-            // Effacer l'affichage
-            system("cls");
-
-
-            // dernier commentaire pour l'aide
-
-            printf("\n\nLes bateaux ne peuvent pas etre colles l'un contre l'autre (en diagonale non plus)");
-
-            printf("\n\n\n");
-            system("pause");
-
-            // Effacer l'affichage
-            system("cls");
-
-            printf("\nVous pouvez quitter le jeu en mettant x quand la ligne vous est demandee");
-            printf("\nIl faudra cependant entrer une colonne entre 1-10 juste apres");
-
-            printf("\n\n\n");
-            system("pause");
-
-            // Effacer l'affichage
-            system("cls");
-
-            map = 0;
-            fonctionLog("map\t\t",map);    //log
-        }
-
-
-
-
-
-
-        // AUTHENTIFICATION (pas encore implemente)
-
-        if (menu == 2) {
-            // Effacer l'affichage
-            system("cls");
-
-            printf("\n\nAUTHENTIFICATION :");
-
-            fonctionPseudoCreation();
-        }
-
 
 
 
@@ -581,7 +631,7 @@ int main() {
 
                 //  choix de la map
                 case 1:
-                    printf("\nchoisissez une map entre 1 et 4 (0 pour aleatoire) :");
+                    printf("\nchoisissez une map entre 1 et 12 (0 pour aleatoire) :");
                     printf("\n\n");
                     scanf("%d",&map);
                     fonctionLog("map\t\t",map);    //log
@@ -627,7 +677,7 @@ int main() {
             // map aléatoire
 
             if(map == 0){
-                map = 1 + rand() % 4;
+                map = 1 + rand() % 12;
                 fonctionLog("map\t\t",map);    //log
                 fonctionMap(map);
             }
@@ -654,22 +704,10 @@ int main() {
 
                         ligne = -1;
                         fonctionLog("ligne\t", ligne);    //log
-                        //do{
+
                         printf("\nligne : ");
                         scanf("%c", &ligneChar);
                         fonctionLog("ligneChar", ligneChar);    //log
-
-
-                        //}while((ligneChar < 49) || ((ligneChar > 74) && (ligneChar < 97)) || (ligneChar > 106));
-/*
-                    // 1-9 -> 0-8
-                    if((ligneChar >= 49) && (ligneChar <= 57)){
-                        ligne = ligneChar - 48;
-                    }
-                    // 10 -> 9
-                    if(ligneChar == 97){
-                        ligne = ligneChar - 90;
-                    }*/
 
 
                         // A-J -> 0-9
@@ -738,22 +776,6 @@ int main() {
             system("cls");
         }
 
-
-
-
-
-
-        // SCORES   (pas encore implemente)
-
-        if(menu == 5){
-            // Effacer l'affichage
-            system("cls");
-
-            printf("\n\nSCORES :\n\n");
-
-            fonctionScoresLecture();
-
-        }
 
 
     }while(menu != 6);
