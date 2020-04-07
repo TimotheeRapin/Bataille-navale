@@ -6,8 +6,8 @@
 *       Version :                   0.1                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       04.04.2020                          *
-*       Nouveautés :                Résolution problème                 *
+*       Date de mise à jour :       07.04.2020                          *
+*       Nouveautés :                Affichage des scores                *
 *                                                                       *
 *************************************************************************
 */
@@ -57,7 +57,7 @@ int fonctionMenu (){
     printf("\n2) S'authentifier");
     printf("\n3) Choisir une map");
     printf("\n4) Jouer");
-    // printf("\n5) Afficher les scores");
+    printf("\n5) Afficher les scores");
     printf("\n6) Quitter");
 
     printf("\n\n");
@@ -240,7 +240,7 @@ void fonctionScoresEcriture(char fonctionPseudo[255], int fonctionScore){
         exit(1);
     }
 
-    fprintf(fp,"%s;%d",fonctionPseudo,fonctionScore);
+    fprintf(fp,"%s;%d;",fonctionPseudo,fonctionScore);
 
     fclose(fp);
 }
@@ -267,6 +267,72 @@ void fonctionPseudoCreation(){
         globalPseudo[i] = c[i];
     }
 
+}
+
+void fonctionScoresLecture(){
+
+    char c = 0;
+    int nbLettres = 0;
+
+    FILE * fp;
+
+    fp = fopen("scores.txt", "r");
+
+
+    if (fp == NULL){
+        printf("\n\nErreur fopen\n");
+        perror("fopen");
+        exit(1);
+    }
+
+    while(c != EOF){
+
+        nbLettres = 0;
+
+        do{
+            c = fgetc(fp);
+            nbLettres++;
+
+            if ((c != EOF) && (c != 59)){
+                printf("%c",c);
+            }
+        }while((c != 59) && (c != EOF));
+
+        printf("\t");
+        if (nbLettres < 8){
+            printf("\t");
+        }
+        if (nbLettres < 16){
+            printf("\t");
+        }
+        if (nbLettres < 24){
+            printf("\t");
+        }
+
+        do{
+            c = fgetc(fp);
+
+            if ((c != EOF) && (c != 59)){
+                printf("%c",c);
+            }
+        }while((c != 59) && (c != EOF));
+
+        if(c != EOF){
+            printf("\tCoups");
+        }
+
+        printf("\n");
+    }
+
+    printf("\n\n\n");
+    system("pause");
+
+    // Effacer l'affichage
+    system("cls");
+
+
+
+    fclose(fp);
 }
 
 int main() {
@@ -683,8 +749,9 @@ int main() {
             // Effacer l'affichage
             system("cls");
 
-            printf("\n\nSCORES :");
+            printf("\n\nSCORES :\n\n");
 
+            fonctionScoresLecture();
 
         }
 
