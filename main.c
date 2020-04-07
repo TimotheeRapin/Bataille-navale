@@ -33,7 +33,7 @@ void fonctionLog (char fonctionLogEcriture[255],int valeur){
 
     // Log ecriture
 
-    fp = fopen("log.txt", "a");
+    fp = fopen("../log.txt", "a");
 
     if (fp == NULL){
         printf("\n\nErreur fopen\n");
@@ -173,19 +173,19 @@ void fonctionMap(int fonctionMapValeur){
 
     switch(fonctionMapValeur) {
         case -1:
-            fp = fopen("mapBateauxDisponibles.txt", "r");
+            fp = fopen("../maps/mapBateauxDisponibles.txt", "r");
             break;
         case 1:
-            fp = fopen("map1.txt", "r");
+            fp = fopen("../maps/map1.txt", "r");
             break;
         case 2:
-            fp = fopen("map2.txt", "r");
+            fp = fopen("../maps/map2.txt", "r");
             break;
         case 3:
-            fp = fopen("map3.txt", "r");
+            fp = fopen("../maps/map3.txt", "r");
             break;
         case 4:
-            fp = fopen("map4.txt", "r");
+            fp = fopen("../maps/map4.txt", "r");
             break;
     }
 
@@ -231,7 +231,7 @@ void fonctionScoresEcriture(char fonctionPseudo[255], int fonctionScore){
 
     FILE * fp;
 
-    fp = fopen("scores.txt", "a");
+    fp = fopen("../scores.txt", "a");
 
 
     if (fp == NULL){
@@ -276,7 +276,7 @@ void fonctionScoresLecture(){
 
     FILE * fp;
 
-    fp = fopen("scores.txt", "r");
+    fp = fopen("../scores.txt", "r");
 
 
     if (fp == NULL){
