@@ -3,10 +3,10 @@
 *                                                                       *
 *       N° de projet :              Pr01                                *
 *       Nom du projet :             Bataille-navale                     *
-*       Version :                   0.1                                 *
+*       Version :                   1.0                                 *
 *       Développer par :            Timothée Rapin                      *
 *       Date de création :          04.03.2020                          *
-*       Date de mise à jour :       07.04.2020                          *
+*       Date de mise à jour :       08.04.2020                          *
 *       Nouveautés :                Mise au propre du code              *
 *                                                                       *
 *************************************************************************
